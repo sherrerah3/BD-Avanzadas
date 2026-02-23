@@ -13,21 +13,21 @@ Este repositorio contiene la solución al laboratorio de optimización de Bases 
    git clone <https://github.com/sherrerah3/BD-Avanzadas>
    cd pg-lab1
 
-Lanzar los servicios (Postgres se inicializará automáticamente con el esquema y datos pesados):
-`docker compose up -d`
+**Lanzar los servicios** (Postgres se inicializará automáticamente con el esquema y datos pesados):
+```docker compose up -d```
 
-Túnel SSH: Desde tu pc, abre un túnel para acceder a pgAdmin:
-ssh -i "tu-llave.pem" ubuntu@<ip-publica> -L 5050:localhost:5050
+**Túnel SSH:** Desde tu pc, abre un túnel para acceder a pgAdmin:
+```ssh -i "tu-llave.pem" ubuntu@<ip-publica> -L 5050:localhost:5050```
 
-Conexión pgAdmin:
-    - URL: http://localhost:5050
-    - Usuario: user@acme.com | Clave: adminpass
-    - Host de BD: Usa la IP privada de la EC2 o el nombre del servicio postgres.
-    - Credenciales: labuser / labpass / DB: labdb.
+**Conexión pgAdmin:**    
+* URL: http://localhost:5050
+* Usuario: user@acme.com | Clave: adminpass
+* Host de BD: Usa la IP privada de la EC2 o el nombre del servicio postgres.
+* Credenciales: labuser / labpass / DB: labdb.
 
 
 ### Contenido y solucion
-Análisis de Rendimiento: En scripts/queries.sql se encuentran las consultas base (Q1 a Q8) para ejecutar con EXPLAIN (ANALYZE, BUFFERS).
+**Análisis de Rendimiento:** En `scripts/queries.sql` se encuentran las consultas base (Q1 a Q8) para ejecutar con `EXPLAIN (ANALYZE, BUFFERS)`.
 
-Optimización: En scripts/optimizations.sql se proponen índices, particiones, reescritura, segun sea necesario, para reducir los tiempos de respuesta.
+**Optimización:** En `scripts/optimizations.sql` se proponen índices, particiones, reescritura, segun sea necesario, para reducir los tiempos de respuesta.
 
