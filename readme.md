@@ -28,7 +28,8 @@ Este repositorio contiene la solución al laboratorio de optimización de Bases 
 
 ### Contenido y solucion
 **Informes y Grafico con Resultados:** [Enlace al Drive](https://drive.google.com/drive/folders/1Jf7MZCBJH5lqnBI_LQ8zhN7ri3XgRnGT?usp=sharing)
-<img width="640" height="464" alt="image" src="https://github.com/user-attachments/assets/7a6eec23-d6ef-4fac-b200-c89fb122cf3d" />
+
+<img width="320" height="232" alt="image" src="https://github.com/user-attachments/assets/7a6eec23-d6ef-4fac-b200-c89fb122cf3d" />
 
 
 **Análisis de Rendimiento:** En `scripts/queries.sql` se encuentran las consultas base (Q1 a Q8) para ejecutar con `EXPLAIN (ANALYZE, BUFFERS)`.
