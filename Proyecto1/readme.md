@@ -35,4 +35,3 @@ Este repositorio contiene la solución al laboratorio de optimización de Bases 
 **Análisis de Rendimiento:** En `scripts/queries.sql` se encuentran las consultas base (Q1 a Q8) para ejecutar con `EXPLAIN (ANALYZE, BUFFERS)`.
 
 **Optimización:** En `scripts/optimizations.sql` se proponen índices, particiones, reescritura, segun sea necesario, para reducir los tiempos de respuesta.
-
