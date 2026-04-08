@@ -16,13 +16,15 @@ CREATE TABLE usuarios (
 -- Tabla padre de ordenes (solo se define aquí,
 -- cada nodo aloja su propia partición)
 CREATE TABLE ordenes (
-    id         SERIAL,
-    usuario_id INTEGER,
+    id         SERIAL NOT NULL,
+    usuario_id INTEGER NOT NULL,
     fecha      TIMESTAMP DEFAULT NOW(),
     estado     VARCHAR(20) CHECK (estado IN ('pendiente','completada','cancelada')),
-    total      NUMERIC(12,2),
-    PRIMARY KEY (id, usuario_id)
+    total      NUMERIC(12,2)
 ) PARTITION BY HASH (usuario_id);
+
+CREATE INDEX idx_ordenes_id ON ordenes (id);
+
 
 -- Partición de ordenes que vive en este nodo
 CREATE TABLE ordenes_nodo0 PARTITION OF ordenes
@@ -30,13 +32,14 @@ CREATE TABLE ordenes_nodo0 PARTITION OF ordenes
 
 -- Tabla padre de order_items
 CREATE TABLE order_items (
-    id              SERIAL,
-    orden_id        INTEGER,
+    id              SERIAL NOT NULL,
+    orden_id        INTEGER NOT NULL,
     producto_id     INTEGER,
     cantidad        INTEGER,
-    precio_unitario NUMERIC(10,2),
-    PRIMARY KEY (id, orden_id)
+    precio_unitario NUMERIC(10,2)
 ) PARTITION BY HASH (orden_id);
+
+CREATE INDEX idx_order_items_id ON order_items (id);
 
 -- Partición de order_items que vive en este nodo
 CREATE TABLE order_item_nodo0 PARTITION OF order_items
