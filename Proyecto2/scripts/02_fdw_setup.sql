@@ -48,16 +48,16 @@ CREATE FOREIGN TABLE ordenes_nodo2 (
 
 -- 5. Importar particiones de ORDER_ITEMS
 CREATE FOREIGN TABLE order_item_nodo1 (
-    id              INTEGER,
-    orden_id        INTEGER,
+    id              INTEGER NOT NULL,
+    orden_id        INTEGER NOT NULL,
     producto_id     INTEGER,
     cantidad        INTEGER,
     precio_unitario NUMERIC(10,2)
 ) SERVER nodo2_server OPTIONS (schema_name 'public', table_name 'order_item_nodo1');
 
 CREATE FOREIGN TABLE order_item_nodo2 (
-    id              INTEGER,
-    orden_id        INTEGER,
+    id              INTEGER NOT NULL,
+    orden_id        INTEGER NOT NULL,
     producto_id     INTEGER,
     cantidad        INTEGER,
     precio_unitario NUMERIC(10,2)
