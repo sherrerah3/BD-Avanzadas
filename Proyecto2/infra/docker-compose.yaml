@@ -1,0 +1,97 @@
+services:
+
+  # ─────────────────────────────────────────
+  # Nodo 1 — usuarios + particiones ordenes_0
+  # ─────────────────────────────────────────
+  nodo1:
+    image: postgres:17
+    container_name: pg_nodo1
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5433:5432"
+    volumes:
+      - nodo01_data:/var/lib/postgresql/data
+    networks:
+      - pg_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────
+  # Nodo 2 — productos + particiones ordenes_1
+  # ─────────────────────────────────────────
+  nodo2:
+    image: postgres:17
+    container_name: pg_nodo2
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5434:5432"
+    volumes:
+      - nodo02_data:/var/lib/postgresql/data
+    networks:
+      - pg_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────
+  # Nodo 3 — pagos + particiones ordenes_2
+  # ─────────────────────────────────────────
+  nodo3:
+    image: postgres:17
+    container_name: pg_nodo3
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5435:5432"
+    volumes:
+      - nodo03_data:/var/lib/postgresql/data
+    networks:
+      - pg_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d ecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────
+  # PgAdmin — interfaz web para los 3 nodos
+  # ─────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      nodo1:
+        condition: service_healthy
+      nodo2:
+        condition: service_healthy
+      nodo3:
+        condition: service_healthy
+    networks:
+      - pg_network
+
+volumes:
+  nodo01_data:
+  nodo02_data:
+  nodo03_data:
+
+networks:
+  pg_network:
+    driver: bridge
