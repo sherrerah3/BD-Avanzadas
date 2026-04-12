@@ -78,20 +78,23 @@ erDiagram
 El ambiente tiene dos capas: los 3 nodos de particionamiento (Persona 1) y el clúster de replicación primario-réplicas (Persona 2), ambos corriendo en Docker.
 
 **Nodos de particionamiento:**
-```mermaid
-flowchart LR
-    subgraph PG["Red Docker: pg_network"]
-        N1["Nodo 1<br/>:5433<br/>usuarios<br/>ordenes_0<br/>items_0"]
-        N2["Nodo 2<br/>:5434<br/>productos<br/>ordenes_1<br/>items_1"]
-        N3["Nodo 3<br/>:5435<br/>pagos<br/>ordenes_2<br/>items_2"]
-        PGA["PgAdmin<br/>:5050"]
-    end
-
-    PGA --- N1
-    PGA --- N2
-    PGA --- N3
-    N1 --- N2
-    N2 --- N3
+```
+┌─────────────────────────────────────────────┐
+│              Red Docker: pg_network          │
+│                                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
+│  │  Nodo 1  │  │  Nodo 2  │  │  Nodo 3  │  │
+│  │ :5433    │  │ :5434    │  │ :5435    │  │
+│  │          │  │          │  │          │  │
+│  │ usuarios │  │productos │  │  pagos   │  │
+│  │ordenes_0 │  │ordenes_1 │  │ordenes_2 │  │
+│  │items_0   │  │items_1   │  │items_2   │  │
+│  └──────────┘  └──────────┘  └──────────┘  │
+│                                             │
+│  ┌──────────┐                               │
+│  │ PgAdmin  │  :5050                        │
+│  └──────────┘                               │
+└─────────────────────────────────────────────┘
 ```
 
 **Clúster de replicación:**
