@@ -1,10 +1,10 @@
 -- ===========================================
--- BIG DATA — NODO 1 (Coordinador)
+-- DATA — NODO 1 (Coordinador)
 -- Ejecutar SOLO desde el Query Tool del Nodo 1
 --
--- usuarios:    100.000
--- ordenes:     5.000.000  → enrutadas automáticamente a los 3 nodos vía FDW
--- order_items: 15.000.000 → enrutados automáticamente a los 3 nodos vía FDW
+-- usuarios:    10.000
+-- ordenes:     500.000  → enrutadas automáticamente a los 3 nodos vía FDW
+-- order_items: 1.500.000 → enrutados automáticamente a los 3 nodos vía FDW
 -- ===========================================
 
 -- ─────────────────────────────────────────
@@ -16,7 +16,7 @@ SELECT
     'user_' || i || '@email.com',
     (ARRAY['bogota','medellin','cali','barranquilla','bucaramanga','cartagena'])[1 + (i % 6)],
     NOW() - (random() * INTERVAL '730 days')
-FROM generate_series(1, 100000) AS i;
+FROM generate_series(1, 10000) AS i;
 
 -- ─────────────────────────────────────────
 -- 2. Órdenes (el Nodo 1 enruta cada fila
@@ -25,11 +25,11 @@ FROM generate_series(1, 100000) AS i;
 INSERT INTO ordenes (id, usuario_id, fecha, estado, total)
 SELECT
     i,
-    1 + (i % 1000),
+    1 + (i % 10000),
     NOW() - (random() * INTERVAL '730 days'),
     (ARRAY['pendiente','completada','completada','completada','cancelada'])[1 + (i % 5)],
     0
-FROM generate_series(1, 5000000) AS i;
+FROM generate_series(1, 500000) AS i;
 
 -- ─────────────────────────────────────────
 -- 3. Order items (el Nodo 1 enruta cada fila
@@ -42,7 +42,7 @@ SELECT
     1 + (i % 1000),
     1 + (i % 5),
     ROUND((5000 + random() * 495000)::numeric, 2)
-FROM generate_series(1, 15000000) AS i;
+FROM generate_series(1, 1500000) AS i;
 
 -- ─────────────────────────────────────────
 -- 4. El "Join Distribuido": Actualizar totales
