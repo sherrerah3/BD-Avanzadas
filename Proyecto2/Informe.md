@@ -261,7 +261,17 @@ Checkout del usuario `100002`:
 
 Se configuró un nodo primary (`pg_nodo1`) con dos réplicas de solo lectura (`pg_replica1`, `pg_replica2`) usando streaming replication de PostgreSQL.
 
-La guía paso a paso de configuración de replicación está en `replicacion/guiaConfReplicacion.md`.
+La guía paso a paso de configuración de replicación está en `replicacion/guiaConfReplicacion.md.
+
+Antes de realizar los experimentos, se recomienda confirmar que las tablas se encuentran establecidas en el nodo primary (`pg_nodo1`), configurar el enrutamiento entre nodos, y poblar con small data.
+
+Configurar enrutamiento entre nodos:
+
+```bash
+docker exec -i pg_nodo1 psql -U admin -d ecommerce < 02_fdw_setup.sql
+```
+
+**Para ver los scripts utilizados en los experimentos, ver los archivos en la carpeta `experimentos`**
 
 ### Experimento 1 — Replicación síncrona vs asíncrona
 
