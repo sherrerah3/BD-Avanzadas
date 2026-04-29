@@ -1,0 +1,74 @@
+# docker-compose.yml
+# Persona 3 — Cluster NewSQL con CockroachDB (3 nodos)
+# EAFIT - Bases de Datos Avanzadas
+
+services:
+  roach1:
+    image: cockroachdb/cockroach:latest
+    container_name: roach1
+    command: start --insecure --cluster-name=cluster1 --join=roach1,roach2,roach3
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - roach1-data:/cockroach/cockroach-data
+    networks:
+      - cockroachnet
+
+  roach2:
+    image: cockroachdb/cockroach:latest
+    container_name: roach2
+    command: start --insecure --cluster-name=cluster1 --join=roach1,roach2,roach3
+    ports:
+      - "26258:26257"
+      - "8081:8080"
+    volumes:
+      - roach2-data:/cockroach/cockroach-data
+    networks:
+      - cockroachnet
+
+  roach3:
+    image: cockroachdb/cockroach:latest
+    container_name: roach3
+    command: start --insecure --cluster-name=cluster1 --join=roach1,roach2,roach3
+    ports:
+      - "26259:26257"
+      - "8082:8080"
+    volumes:
+      - roach3-data:/cockroach/cockroach-data
+    networks:
+      - cockroachnet
+
+volumes:
+  roach1-data:
+  roach2-data:
+  roach3-data:
+
+networks:
+  cockroachnet:
+    driver: bridge
+
+# -------------------------------------------------------
+# COMANDOS DE USO:
+#
+# 1. Levantar el cluster:
+#    docker compose up -d
+#
+# 2. Inicializar (SOLO LA PRIMERA VEZ):
+#    docker exec -it roach1 ./cockroach init --insecure --cluster-name=cluster1
+#
+# 3. Verificar nodos:
+#    docker exec -it roach1 ./cockroach node status --insecure --host=localhost:26257
+#
+# 4. Acceder al SQL shell:
+#    docker exec -it roach1 ./cockroach sql --insecure --host=localhost:26257
+#
+# 5. UI web: http://localhost:8080
+#
+# 6. Detener el cluster:
+#    docker compose down
+#
+# SIMULACION DE FALLAS (experimentos Raft):
+#    docker pause roach2          # Simular caida de nodo
+#    docker unpause roach2        # Recuperar nodo
+# -------------------------------------------------------
